@@ -1,17 +1,18 @@
 #!/bin/bash
 
 SCRIPT_REPO="http://svn.xvid.org/trunk/xvidcore"
-SCRIPT_REV="2198"
+SCRIPT_REV="2200"
 
 ffbuild_enabled() {
     [[ $VARIANT == lgpl* ]] && return -1
     return 0
 }
 
-ffbuild_dockerbuild() {
-    retry-tool sh -c "rm -rf xvid && svn checkout --username 'anonymous' --password '' '${SCRIPT_REPO}@${SCRIPT_REV}' xvid"
-    cd xvid
+ffbuild_dockerdl() {
+    echo "retry-tool sh -c \"rm -rf xvid && svn checkout --username 'anonymous' --password '' '${SCRIPT_REPO}@${SCRIPT_REV}' xvid\" && cd xvid"
+}
 
+ffbuild_dockerbuild() {
     cd build/generic
 
     # The original code fails on a two-digit major...

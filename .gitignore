@@ -1,5 +1,4 @@
-/Dockerfile
+/Dockerfile*
 /ffbuild/
 /artifacts/
 /.cache/
-/.idea/

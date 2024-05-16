@@ -1,16 +1,22 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/ARMmbed/mbedtls.git"
-SCRIPT_COMMIT="v3.4.0"
+SCRIPT_COMMIT="v3.6.0"
 SCRIPT_TAGFILTER="v3.*"
 
 ffbuild_enabled() {
     return 0
 }
 
+ffbuild_dockerdl() {
+    default_dl .
+    echo "git submodule update --init --recursive --depth=1"
+}
+
 ffbuild_dockerbuild() {
-    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" mbedtls
-    cd mbedtls
+    if [[ $TARGET == win32 ]]; then
+        python3 scripts/config.py unset MBEDTLS_AESNI_C
+    fi
 
     mkdir build && cd build
 
@@ -20,4 +26,8 @@ ffbuild_dockerbuild() {
         ..
     make -j$(nproc)
     make install
+
+    if [[ $TARGET == win* ]]; then
+        echo "Libs.private: -lws2_32 -lbcrypt -lwinmm -lgdi32" >> "$FFBUILD_PREFIX"/lib/pkgconfig/mbedcrypto.pc
+    fi
 }

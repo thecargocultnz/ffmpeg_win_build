@@ -7,14 +7,16 @@ ffbuild_enabled() {
     [[ $VARIANT == lgpl* ]] && return -1
     [[ $TARGET == win32 ]] && return -1
     # davs2 aarch64 support is broken
-    [[ $TARGET == linuxarm64 ]] && return -1
+    [[ $TARGET == *arm64 ]] && return -1
     return 0
 }
 
+ffbuild_dockerdl() {
+    default_dl .
+    echo "git fetch --unshallow"
+}
+
 ffbuild_dockerbuild() {
-    git clone "$SCRIPT_REPO" davs2
-    cd davs2
-    git checkout "$SCRIPT_COMMIT"
     cd build/linux
 
     local myconf=(

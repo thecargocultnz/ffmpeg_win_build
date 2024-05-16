@@ -1,5 +1,5 @@
 #!/bin/bash
-set -xe
+set -xeo pipefail
 cd "$(dirname "$0")"
 source util/vars.sh
 
@@ -19,33 +19,45 @@ docker buildx inspect ffbuilder &>/dev/null || docker buildx create \
     --driver-opt env.BUILDKIT_STEP_LOG_MAX_SPEED=-1
 
 if [[ -z "$QUICKBUILD" ]]; then
-    docker container inspect ffbuildreg &>/dev/null || \
-        docker run --rm -d -p 127.0.0.1:0:5000 --name ffbuildreg registry:2
-    LOCAL_REG_PORT="$(docker container inspect --format='{{range $p, $conf := .NetworkSettings.Ports}}{{(index $conf 0).HostPort}}{{end}}' ffbuildreg)"
-    LOCAL_ROOT="127.0.0.1:${LOCAL_REG_PORT}/local"
-    trap "rm -f '$TMPCFG'; docker container stop ffbuildreg" EXIT
-
-    if grep "FROM.*base.*" "images/base-${TARGET}/Dockerfile" >/dev/null 2>&1; then
+    BASE_IMAGE_TARGET="${PWD}/.cache/images/base"
+    if [[ ! -d "${BASE_IMAGE_TARGET}" ]]; then
         docker buildx --builder ffbuilder build \
             --cache-from=type=local,src=.cache/"${BASE_IMAGE/:/_}" \
             --cache-to=type=local,mode=max,dest=.cache/"${BASE_IMAGE/:/_}" \
-            --push --tag "${LOCAL_ROOT}/base:latest" images/base
+            --load --tag "${BASE_IMAGE}" \
+            "images/base"
+        mkdir -p "${BASE_IMAGE_TARGET}"
+        docker image save "${BASE_IMAGE}" | tar -x -C "${BASE_IMAGE_TARGET}"
     fi
 
-    docker buildx --builder ffbuilder build \
-        --cache-from=type=local,src=.cache/"${TARGET_IMAGE/:/_}" \
-        --cache-to=type=local,mode=max,dest=.cache/"${TARGET_IMAGE/:/_}" \
-        --push --tag "${LOCAL_ROOT}/base-${TARGET}:latest" \
-        --build-arg GH_REPO="$LOCAL_ROOT" "images/base-${TARGET}"
+    IMAGE_TARGET="${PWD}/.cache/images/base-${TARGET}"
+    if [[ ! -d "${IMAGE_TARGET}" ]]; then
+        docker buildx --builder ffbuilder build \
+            --cache-from=type=local,src=.cache/"${TARGET_IMAGE/:/_}" \
+            --cache-to=type=local,mode=max,dest=.cache/"${TARGET_IMAGE/:/_}" \
+            --build-arg GH_REPO="${REGISTRY}/${REPO}" \
+            --build-context "${BASE_IMAGE}=oci-layout://${BASE_IMAGE_TARGET}" \
+            --load --tag "${TARGET_IMAGE}" \
+            "images/base-${TARGET}"
+        mkdir -p "${IMAGE_TARGET}"
+        docker image save "${TARGET_IMAGE}" | tar -x -C "${IMAGE_TARGET}"
+    fi
 
-    export REGISTRY_OVERRIDE="127.0.0.1:${LOCAL_REG_PORT}" GITHUB_REPOSITORY="local"
+    CONTEXT_SRC="oci-layout://${IMAGE_TARGET}"
+else
+    CONTEXT_SRC="docker-image://${TARGET_IMAGE}"
 fi
 
+./download.sh
 ./generate.sh "$TARGET" "$VARIANT" "${ADDINS[@]}"
 
 docker buildx --builder ffbuilder build \
     --cache-from=type=local,src=.cache/"${IMAGE/:/_}" \
     --cache-to=type=local,mode=max,dest=.cache/"${IMAGE/:/_}" \
+    --build-context "${TARGET_IMAGE}=${CONTEXT_SRC}" \
     --load --tag "$IMAGE" .
 
-docker buildx rm -f ffbuilder
+if [[ -z "$NOCLEAN" ]]; then
+    docker buildx rm -f ffbuilder
+    rm -rf .cache/images
+fi

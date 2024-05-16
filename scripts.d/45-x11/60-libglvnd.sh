@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://gitlab.freedesktop.org/glvnd/libglvnd.git"
-SCRIPT_COMMIT="179d7278d7485ceea2d440807be9d677d32aedc4"
+SCRIPT_COMMIT="908086d22dc307d17d0eb35c522c35fd190718cc"
 
 ffbuild_enabled() {
     [[ $TARGET != linux* ]] && return -1
@@ -9,9 +9,6 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" glvnd
-    cd glvnd
-
     mkdir build && cd build
 
     local myconf=(

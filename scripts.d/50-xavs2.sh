@@ -7,14 +7,15 @@ ffbuild_enabled() {
     [[ $VARIANT == lgpl* ]] && return -1
     [[ $TARGET == win32 ]] && return -1
     # xavs2 aarch64 support is broken
-    [[ $TARGET == linuxarm64 ]] && return -1
+    [[ $TARGET == *arm64 ]] && return -1
     return 0
 }
 
+ffbuild_dockerdl() {
+    echo "git clone \"$SCRIPT_REPO\" . && git checkout \"$SCRIPT_COMMIT\""
+}
+
 ffbuild_dockerbuild() {
-    git clone "$SCRIPT_REPO" xavs2
-    cd xavs2
-    git checkout "$SCRIPT_COMMIT"
     cd build/linux
 
     local myconf=(

@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# crosstool-NG 1.25.0.152_89671bf Configuration
+# crosstool-NG 1.26.0.65_ecc5e41 Configuration
 #
 CT_CONFIGURE_has_static_link=y
 CT_CONFIGURE_has_cxx11=y
@@ -8,14 +8,13 @@ CT_CONFIGURE_has_wget=y
 CT_CONFIGURE_has_curl=y
 CT_CONFIGURE_has_meson=y
 CT_CONFIGURE_has_ninja=y
-CT_CONFIGURE_has_rsync=y
 CT_CONFIGURE_has_make_3_81_or_newer=y
 CT_CONFIGURE_has_make_4_0_or_newer=y
 CT_CONFIGURE_has_libtool_2_4_or_newer=y
 CT_CONFIGURE_has_libtoolize_2_4_or_newer=y
-CT_CONFIGURE_has_autoconf_2_71_or_newer=y
-CT_CONFIGURE_has_autoreconf_2_71_or_newer=y
-CT_CONFIGURE_has_automake_1_16_or_newer=y
+CT_CONFIGURE_has_autoconf_2_65_or_newer=y
+CT_CONFIGURE_has_autoreconf_2_65_or_newer=y
+CT_CONFIGURE_has_automake_1_15_or_newer=y
 CT_CONFIGURE_has_gnu_m4_1_4_12_or_newer=y
 CT_CONFIGURE_has_python_3_4_or_newer=y
 CT_CONFIGURE_has_bison_2_7_or_newer=y
@@ -28,7 +27,7 @@ CT_CONFIGURE_has_sha1sum=y
 CT_CONFIGURE_has_sha256sum=y
 CT_CONFIGURE_has_sha512sum=y
 CT_CONFIGURE_has_install_with_strip_program=y
-CT_VERSION="1.25.0.152_89671bf"
+CT_VERSION="1.26.0.65_ecc5e41"
 CT_VCHECK=""
 CT_CONFIG_VERSION_ENV="4"
 CT_CONFIG_VERSION_CURRENT="4"
@@ -147,6 +146,7 @@ CT_LOG_LEVEL_MAX="DEBUG"
 # CT_ARCH_MOXIE is not set
 # CT_ARCH_MSP430 is not set
 # CT_ARCH_NIOS2 is not set
+# CT_ARCH_PARISC is not set
 # CT_ARCH_POWERPC is not set
 # CT_ARCH_PRU is not set
 # CT_ARCH_RISCV is not set
@@ -165,7 +165,7 @@ CT_ARCH_X86_SHOW=y
 # Options for x86
 #
 CT_ARCH_X86_PKG_KSYM=""
-CT_ALL_ARCH_CHOICES="ALPHA ARC ARM AVR BPF C6X LOONGARCH M68K MICROBLAZE MIPS MOXIE MSP430 NIOS2 POWERPC PRU RISCV S390 SH SPARC X86 XTENSA"
+CT_ALL_ARCH_CHOICES="ALPHA ARC ARM AVR BPF C6X LOONGARCH M68K MICROBLAZE MIPS MOXIE MSP430 NIOS2 PARISC POWERPC PRU RISCV S390 SH SPARC X86 XTENSA"
 CT_ARCH_SUFFIX=""
 # CT_OMIT_TARGET_VENDOR is not set
 
@@ -295,7 +295,9 @@ CT_BINUTILS_PATCH_GLOBAL=y
 # CT_BINUTILS_PATCH_LOCAL_BUNDLED is not set
 # CT_BINUTILS_PATCH_NONE is not set
 CT_BINUTILS_PATCH_ORDER="global"
-CT_BINUTILS_V_2_40=y
+CT_BINUTILS_V_2_42=y
+# CT_BINUTILS_V_2_41 is not set
+# CT_BINUTILS_V_2_40 is not set
 # CT_BINUTILS_V_2_39 is not set
 # CT_BINUTILS_V_2_38 is not set
 # CT_BINUTILS_V_2_37 is not set
@@ -310,7 +312,7 @@ CT_BINUTILS_V_2_40=y
 # CT_BINUTILS_V_2_28 is not set
 # CT_BINUTILS_V_2_27 is not set
 # CT_BINUTILS_V_2_26 is not set
-CT_BINUTILS_VERSION="2.40"
+CT_BINUTILS_VERSION="2.42"
 CT_BINUTILS_MIRRORS="$(CT_Mirrors GNU binutils) $(CT_Mirrors sourceware binutils/releases)"
 CT_BINUTILS_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_BINUTILS_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
@@ -368,20 +370,25 @@ CT_MINGW_W64_PATCH_GLOBAL=y
 # CT_MINGW_W64_PATCH_LOCAL_BUNDLED is not set
 # CT_MINGW_W64_PATCH_NONE is not set
 CT_MINGW_W64_PATCH_ORDER="global"
-CT_MINGW_W64_V_V10_0=y
+CT_MINGW_W64_V_V11_0=y
+# CT_MINGW_W64_V_V10_0 is not set
 # CT_MINGW_W64_V_V9_0 is not set
 # CT_MINGW_W64_V_V8_0 is not set
 # CT_MINGW_W64_V_V7_0 is not set
 # CT_MINGW_W64_V_V6_0 is not set
 # CT_MINGW_W64_V_V5_0 is not set
 # CT_MINGW_W64_V_V4_0 is not set
-CT_MINGW_W64_VERSION="v10.0.0"
+CT_MINGW_W64_VERSION="v11.0.1"
 CT_MINGW_W64_MIRRORS="http://downloads.sourceforge.net/sourceforge/mingw-w64 https://downloads.sourceforge.net/project/mingw-w64/mingw-w64/mingw-w64-release/"
 CT_MINGW_W64_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_MINGW_W64_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
 CT_MINGW_W64_ARCHIVE_FORMATS=".tar.bz2 .zip"
 CT_MINGW_W64_SIGNATURE_FORMAT="packed/.sig"
 CT_MINGW_SECURE_API=y
+# CT_MINGW_DEFAULT_MSVCRT_DEFAULT is not set
+# CT_MINGW_DEFAULT_MSVCRT_MSVCRT is not set
+CT_MINGW_DEFAULT_MSVCRT_UCRT=y
+# CT_MINGW_DEFAULT_MSVCRT_CUSTOM is not set
 CT_MINGW_DIRECTX=y
 CT_MINGW_DDK=y
 CT_MINGW_TOOLS=y
@@ -437,7 +444,8 @@ CT_GCC_PATCH_GLOBAL=y
 # CT_GCC_PATCH_LOCAL_BUNDLED is not set
 # CT_GCC_PATCH_NONE is not set
 CT_GCC_PATCH_ORDER="global"
-CT_GCC_V_12=y
+CT_GCC_V_13=y
+# CT_GCC_V_12 is not set
 # CT_GCC_V_11 is not set
 # CT_GCC_V_10 is not set
 # CT_GCC_V_9 is not set
@@ -446,12 +454,14 @@ CT_GCC_V_12=y
 # CT_GCC_V_6 is not set
 # CT_GCC_V_5 is not set
 # CT_GCC_V_4_9 is not set
-CT_GCC_VERSION="12.2.0"
+CT_GCC_VERSION="13.2.0"
 CT_GCC_MIRRORS="$(CT_Mirrors GNU gcc/gcc-${CT_GCC_VERSION}) $(CT_Mirrors sourceware gcc/releases/gcc-${CT_GCC_VERSION})"
 CT_GCC_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_GCC_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
 CT_GCC_ARCHIVE_FORMATS=".tar.xz .tar.gz"
 CT_GCC_SIGNATURE_FORMAT=""
+CT_GCC_later_than_13=y
+CT_GCC_13_or_later=y
 CT_GCC_later_than_12=y
 CT_GCC_12_or_later=y
 CT_GCC_later_than_11=y
@@ -621,7 +631,8 @@ CT_ISL_PATCH_GLOBAL=y
 # CT_ISL_PATCH_LOCAL_BUNDLED is not set
 # CT_ISL_PATCH_NONE is not set
 CT_ISL_PATCH_ORDER="global"
-CT_ISL_V_0_25=y
+CT_ISL_V_0_26=y
+# CT_ISL_V_0_25 is not set
 # CT_ISL_V_0_24 is not set
 # CT_ISL_V_0_23 is not set
 # CT_ISL_V_0_22 is not set
@@ -632,7 +643,7 @@ CT_ISL_V_0_25=y
 # CT_ISL_V_0_17 is not set
 # CT_ISL_V_0_16 is not set
 # CT_ISL_V_0_15 is not set
-CT_ISL_VERSION="0.25"
+CT_ISL_VERSION="0.26"
 CT_ISL_MIRRORS="https://libisl.sourceforge.io"
 CT_ISL_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_ISL_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
@@ -658,11 +669,9 @@ CT_MPC_PATCH_GLOBAL=y
 # CT_MPC_PATCH_LOCAL_BUNDLED is not set
 # CT_MPC_PATCH_NONE is not set
 CT_MPC_PATCH_ORDER="global"
-CT_MPC_V_1_2=y
-# CT_MPC_V_1_1 is not set
-# CT_MPC_V_1_0 is not set
-CT_MPC_VERSION="1.2.1"
-CT_MPC_MIRRORS="http://www.multiprecision.org/downloads $(CT_Mirrors GNU mpc)"
+CT_MPC_V_1_3=y
+CT_MPC_VERSION="1.3.1"
+CT_MPC_MIRRORS="https://www.multiprecision.org/downloads $(CT_Mirrors GNU mpc)"
 CT_MPC_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_MPC_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
 CT_MPC_ARCHIVE_FORMATS=".tar.gz"
@@ -683,11 +692,9 @@ CT_MPFR_PATCH_GLOBAL=y
 # CT_MPFR_PATCH_LOCAL_BUNDLED is not set
 # CT_MPFR_PATCH_NONE is not set
 CT_MPFR_PATCH_ORDER="global"
-CT_MPFR_V_4_1=y
-# CT_MPFR_V_4_0 is not set
-# CT_MPFR_V_3_1 is not set
-CT_MPFR_VERSION="4.1.0"
-CT_MPFR_MIRRORS="http://www.mpfr.org/mpfr-${CT_MPFR_VERSION} $(CT_Mirrors GNU mpfr)"
+CT_MPFR_V_4_2=y
+CT_MPFR_VERSION="4.2.1"
+CT_MPFR_MIRRORS="https://www.mpfr.org/mpfr-${CT_MPFR_VERSION} $(CT_Mirrors GNU mpfr)"
 CT_MPFR_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_MPFR_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
 CT_MPFR_ARCHIVE_FORMATS=".tar.xz .tar.bz2 .tar.gz .zip"
@@ -709,8 +716,9 @@ CT_ZLIB_PATCH_GLOBAL=y
 # CT_ZLIB_PATCH_LOCAL_BUNDLED is not set
 # CT_ZLIB_PATCH_NONE is not set
 CT_ZLIB_PATCH_ORDER="global"
-CT_ZLIB_V_1_2_13=y
-CT_ZLIB_VERSION="1.2.13"
+CT_ZLIB_V_1_3=y
+# CT_ZLIB_V_1_2_13 is not set
+CT_ZLIB_VERSION="1.3"
 CT_ZLIB_MIRRORS="https://github.com/madler/zlib/releases/download/v${CT_ZLIB_VERSION} https://www.zlib.net/"
 CT_ZLIB_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_ZLIB_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
@@ -730,8 +738,9 @@ CT_ZSTD_PATCH_GLOBAL=y
 # CT_ZSTD_PATCH_LOCAL_BUNDLED is not set
 # CT_ZSTD_PATCH_NONE is not set
 CT_ZSTD_PATCH_ORDER="global"
-CT_ZSTD_V_1_5_2=y
-CT_ZSTD_VERSION="1.5.2"
+CT_ZSTD_V_1_5_5=y
+# CT_ZSTD_V_1_5_2 is not set
+CT_ZSTD_VERSION="1.5.5"
 CT_ZSTD_MIRRORS="https://github.com/facebook/zstd/releases/download/v${CT_ZSTD_VERSION} https://www.zstd.net/"
 CT_ZSTD_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_ZSTD_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"

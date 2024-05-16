@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://gitlab.freedesktop.org/xorg/lib/libxcb.git"
-SCRIPT_COMMIT="8935793f1f3751a6aa9d78955c7d6236177986de"
+SCRIPT_COMMIT="622152ee42a310876f10602601206954b8d0613e"
 
 ffbuild_enabled() {
     [[ $TARGET != linux* ]] && return -1
@@ -9,9 +9,6 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" libxcb
-    cd libxcb
-
     autoreconf -i
 
     local myconf=(

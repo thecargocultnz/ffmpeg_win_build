@@ -1,16 +1,13 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/fribidi/fribidi.git"
-SCRIPT_COMMIT="b54871c339dabb7434718da3fed2fa63320997e5"
+SCRIPT_COMMIT="bca04dc3cd3af85a9d9220c430737333634d622a"
 
 ffbuild_enabled() {
     return 0
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" fribidi
-    cd fribidi
-
     mkdir build && cd build
 
     local myconf=(

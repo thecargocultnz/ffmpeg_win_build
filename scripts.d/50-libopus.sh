@@ -1,32 +1,30 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/xiph/opus.git"
-SCRIPT_COMMIT="5023249b5c935545fb02dbfe845cae996ecfc8bb"
+SCRIPT_COMMIT="20568812ae92bb148fe3fb0190b7629f1c4d0b96"
 
 ffbuild_enabled() {
     return 0
 }
 
+ffbuild_dockerdl() {
+    default_dl .
+    echo "./autogen.sh"
+}
+
 ffbuild_dockerbuild() {
-    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" opus
-    cd opus
-
-    ./autogen.sh
-
     local myconf=(
         --prefix="$FFBUILD_PREFIX"
+        --host="$FFBUILD_TOOLCHAIN"
         --disable-shared
         --enable-static
         --disable-extra-programs
     )
 
-    if [[ $TARGET == win* || $TARGET == linux* ]]; then
+    if [[ $TARGET == winarm* ]]; then
         myconf+=(
-            --host="$FFBUILD_TOOLCHAIN"
+            --disable-rtcd
         )
-    else
-        echo "Unknown target"
-        return -1
     fi
 
     ./configure "${myconf[@]}"

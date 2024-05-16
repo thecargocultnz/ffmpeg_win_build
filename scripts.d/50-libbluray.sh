@@ -8,9 +8,6 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" libbluray
-    cd libbluray
-
     ./bootstrap
 
     local myconf=(
@@ -35,6 +32,8 @@ ffbuild_dockerbuild() {
         echo "Unknown target"
         return -1
     fi
+
+    export CPPFLAGS="${CPPFLAGS} -Ddec_init=libbr_dec_init"
 
     ./configure "${myconf[@]}"
     make -j$(nproc)
