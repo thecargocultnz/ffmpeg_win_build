@@ -149,7 +149,7 @@ jobs:
       fail-fast: false
       matrix:
         target: [win64]
-        variant: [gpl-shared 4.4]
+        variant: [gpl-shared debug 4.4]
     steps:
       - name: Free Disk-Space
         run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc && df -h
@@ -214,7 +214,7 @@ jobs:
       fail-fast: false
       matrix:
         target: [win64]
-        variant: [gpl-shared 4.4]
+        variant: [gpl-shared debug 4.4]
     steps:
       - name: Free Disk-Space
         run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc && df -h
@@ -281,10 +281,6 @@ jobs:
           gh release delete --cleanup-tag --yes "$TAGNAME" || true
           sleep 15
           gh release create "$TAGNAME" --target "main" --title "$NAME" latest_artifacts/*
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-      - name: Update Wiki
-        run: ./util/update_wiki.sh artifacts ${{ steps.create_release.outputs.tag_name }}
         env:
           GITHUB_TOKEN: ${{ github.token }}
       - name: Prune old releases
