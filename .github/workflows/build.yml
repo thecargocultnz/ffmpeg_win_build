@@ -243,7 +243,7 @@ jobs:
           path: artifacts/*
   publish_release:
     name: Publish release
-    if: ${{ !cancelled() && ( github.event_name == 'schedule' || github.event.inputs.doRelease == 'true' ) && needs.build_ffmpeg.result == 'success' }}
+    if: ${{ !cancelled() && needs.build_ffmpeg.result == 'success' }}
     needs: build_ffmpeg
     runs-on: ubuntu-latest
     steps:
@@ -265,7 +265,7 @@ jobs:
           RELDATE="$(date +'%Y-%m-%d %H:%M')"
           NAME="Auto-Build $RELDATE"
           TAGNAME="autobuild-$(date +'%Y-%m-%d-%H-%M')"
-          gh release create "$TAGNAME" --target "master" --title "$NAME" artifacts/*.{zip,tar.xz}
+          gh release create "$TAGNAME" --target "main" --title "$NAME" artifacts/*.{zip,tar.xz}
           echo "tag_name=${TAGNAME}" >> $GITHUB_OUTPUT
           echo "rel_date=${RELDATE}" >> $GITHUB_OUTPUT
         env:
@@ -280,7 +280,7 @@ jobs:
           TAGNAME="latest"
           gh release delete --cleanup-tag --yes "$TAGNAME" || true
           sleep 15
-          gh release create "$TAGNAME" --target "master" --title "$NAME" latest_artifacts/*
+          gh release create "$TAGNAME" --target "main" --title "$NAME" latest_artifacts/*
         env:
           GITHUB_TOKEN: ${{ github.token }}
       - name: Update Wiki
