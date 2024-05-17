@@ -168,7 +168,7 @@ jobs:
       - name: Image Name
         id: imagename
         run: |
-          IMG="${GITHUB_REPOSITORY,,}/${{ matrix.target }}-${{ matrix.variant }}"
+          IMG="${GITHUB_REPOSITORY,,}/${{ matrix.target }}-${{ matrix.variant | replace(' ', '-') }}"
           echo "name=ghcr.io/${IMG/ /-}" >> $GITHUB_OUTPUT
           echo "rawname=${IMG/ /-}" >> $GITHUB_OUTPUT
       - name: Get download cache key
@@ -233,7 +233,7 @@ jobs:
       - name: Replace spaces in string
         id: strs
         run: |
-          SLUG="${{ matrix.target }}-${{ matrix.variant }}"
+          SLUG="${{ matrix.target }}-${{ matrix.variant | replace(' ', '-') }}"
           echo "artifact_slug=${SLUG// /-}" >> $GITHUB_OUTPUT
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
