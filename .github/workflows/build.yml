@@ -165,10 +165,15 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ github.token }}
+      - name: Replace spaces in string
+        id: strs
+        run: |
+          D_IMG="${{ matrix.target }}-${{ matrix.variant }}"
+          echo "docker_img=${D_IMG// /-}" >> $GITHUB_OUTPUT
       - name: Image Name
         id: imagename
         run: |
-          IMG="${GITHUB_REPOSITORY,,}/${{ matrix.target }}-${{ matrix.variant | replace(' ', '-') }}"
+          IMG="${GITHUB_REPOSITORY,,}/${{ steps.strs.outputs.docker_img }}"
           echo "name=ghcr.io/${IMG/ /-}" >> $GITHUB_OUTPUT
           echo "rawname=${IMG/ /-}" >> $GITHUB_OUTPUT
       - name: Get download cache key
@@ -233,7 +238,7 @@ jobs:
       - name: Replace spaces in string
         id: strs
         run: |
-          SLUG="${{ matrix.target }}-${{ matrix.variant | replace(' ', '-') }}"
+          SLUG="${{ matrix.target }}-${{ matrix.variant}}"
           echo "artifact_slug=${SLUG// /-}" >> $GITHUB_OUTPUT
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
