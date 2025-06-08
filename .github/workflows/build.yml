@@ -17,6 +17,11 @@ on:
         type: boolean
         default: false
         required: false
+      ffmpegBranch:
+        description: 'FFmpeg branch to build'
+        type: string
+        default: 'master'
+        required: false
 
 env:
   DOCKER_BUILDKIT: 1
@@ -234,7 +239,7 @@ jobs:
       - name: Build ffmpeg
         run: |
           T="$(echo -n ${{ github.token }} | sha256sum | head -c 64)" && echo -e "::add-mask::${T}\n::stop-commands::${T}"
-          ./build.sh ${{ matrix.target }} ${{ matrix.variant }}
+          FFMPEG_BRANCH="${{ github.event.inputs.ffmpegBranch }}" ./build.sh ${{ matrix.target }} ${{ matrix.variant }}
       - name: Replace spaces in string
         id: strs
         run: |
